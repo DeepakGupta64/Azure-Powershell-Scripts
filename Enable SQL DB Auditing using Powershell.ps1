@@ -34,6 +34,9 @@ Set-AzSqlDatabaseAudit -ResourceGroupName "RG1" -ServerName "azsql5" -DatabaseNa
 -AuditActionGroup "DATABASE_OBJECT_CHANGE_GROUP" 
 -AuditAction "INSERT, UPDATE, DELETE ON dbo.Employees BY public", "EXECUTE ON InsertEmployees_SP BY public"
 
+
+<# Run below query in SSMS or Azure Portal SQL DB query Editor
+
 CREATE TABLE Employees (
     EmployeeID INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(100),
@@ -41,7 +44,7 @@ CREATE TABLE Employees (
     Salary DECIMAL(10,2)
 );
 
-<#
+
 CREATE PROCEDURE InsertEmployees_SP
 AS
 BEGIN
