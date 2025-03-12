@@ -25,13 +25,15 @@ Set-AzSqlDatabaseAudit `
 ##  select * from TestTable 
 ##  drop table TestTable
 
----------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 
 # Microsoft engineer gave this query
 # Azure Storage accoutn still need to be connected with Azure SQL DB in Auditing section
 
 Set-AzSqlDatabaseAudit -ResourceGroupName "RG1" -ServerName "azsql5" -DatabaseName "BLN" 
 -AuditActionGroup "DATABASE_OBJECT_CHANGE_GROUP" 
+-BlobStorageTargetState Enabled 
+-StorageAccountResourceId "/subscriptions/f8e09f37-d4cd-429e-bb19-a33cde7a7ca5/resourceGroups/Dev-RG/providers/Microsoft.Storage/storageAccounts/devstgacc101" 
 -AuditAction "INSERT, UPDATE, DELETE ON dbo.Employees BY public", "EXECUTE ON InsertEmployees_SP BY public"
 
 
