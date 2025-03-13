@@ -16,7 +16,7 @@ Set-AzSqlDatabaseAudit `
 -DatabaseName "BLN" `
 -AuditActionGroup @() `
 -AuditAction @() `
--PredicateExpression @()
+-PredicateExpression {}
 
 
 #Sql script  # only run in SSMS or Azure Portal Query Editor
