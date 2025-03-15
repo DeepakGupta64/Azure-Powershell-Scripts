@@ -1,0 +1,53 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - main  # Trigger on changes to the main branch (customize as needed)
+
+parameters:
+  - name: scriptPath
+    displayName: 'Enter the path to your PowerShell script (.ps1)'
+    type: string
+    default: 'scripts/myscript.ps1' # Example default path
+
+pool:
+  vmImage: 'windows-latest' # Use Windows runner for PowerShell
+
+stages:
+  - stage: RunPowerShellScript
+    displayName: 'Run PowerShell Script'
+    jobs:
+      - job: ExecuteScript
+        displayName: 'Execute PowerShell Script'
+        steps:
+
+          # Validate the script path exists
+          - task: PowerShell@2
+            displayName: 'Validate Script Path'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $scriptPath = "${{ parameters.scriptPath }}"
+                if (!(Test-Path -Path $scriptPath -PathType Leaf)) {
+                  Write-Error "ERROR: Script path '$scriptPath' is invalid or does not exist."
+                  exit 1
+                }
+                Write-Host "✅ Script path is valid: $scriptPath"
+
+          # Run the PowerShell script
+          - task: PowerShell@2
+            displayName: 'Run PowerShell Script'
+            inputs:
+              targetType: 'filePath'
+              filePath: '${{ parameters.scriptPath }}'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+          # Optional: Output completion message
+          - task: PowerShell@2
+            displayName: 'Script Completed'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Write-Host "🎉 PowerShell script completed successfully!"
