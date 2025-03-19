@@ -1,1 +1,1 @@
-get-process
+Get-azSubscription
